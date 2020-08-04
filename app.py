@@ -15,7 +15,8 @@ def home():
 
 @app.route("/get_data")
 def get_data():
-    return jsonify({"name": "Alice", "age": 50})
+    return jsonify({"goods_list": ["衬衫1","羊毛衫1","雪纺衫","裤子","高跟鞋","袜子"], \
+        "sale_list": [5, 20, 36, 10, 10, 20]})
 
 
 if __name__ == "__main__":

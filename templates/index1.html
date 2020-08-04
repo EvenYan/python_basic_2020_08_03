@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.css') }}">
     <script src="{{ url_for('static', filename='jquery.js') }}"></script>
+    <script src="{{ url_for('static', filename='echarts.js') }}"></script>
     <title>百度</title>
 </head>
 <body>
@@ -38,15 +39,40 @@
 
     <button id="btn_1">展示图表</button>
 
+    <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
+    <div id="main" style="width: 600px;height:400px;"></div>
     <script>
         $("#btn_1").click(function(){
+          // 基于准备好的dom，初始化echarts实例
+          var myChart = echarts.init(document.getElementById('main'));
             $.ajax({
                 url: '/get_data',
                 type: 'get',
                 dataType: 'json',
                 success:function (data) {
                     // todo
-                    alert("请求成功！")
+                    alert("请求成功！");
+                    // 指定图表的配置项和数据
+        var option = {
+          title: {
+              text: 'ECharts 入门示例'
+          },
+          tooltip: {},
+          legend: {
+              data:['销量']
+          },
+          xAxis: {
+              data: data.goods_list
+          },
+          yAxis: {},
+          series: [{
+              name: '销量',
+              type: 'line',
+              data: data.sale_list
+          }]
+      };
+      // 使用刚指定的配置项和数据显示图表。
+      myChart.setOption(option);
                 },
                 error:function (data) {
                     alert('Ajax请求失败！');
